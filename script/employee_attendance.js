@@ -1,12 +1,16 @@
 const mysql = require('mysql')
 const { Transform, Readable, Writable } = require('stream')
 
-const { randomIntFromInterval, getWeekdayDates } = require('./utils')
+const { randomIntFromInterval, getWeekdayDates } = require('./helper')
+const { nextTick } = require('process')
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + (h*60*60*1000))
   return this
 }
+
+const maxConcurrent = 10
+let concurrent = 0
 
 const connection = mysql.createPool({
   connectionLimit : 10,
@@ -33,11 +37,17 @@ const inStream = new Readable({
 const outStream = new Writable({
   objectMode: true,
   write(data, encoding, callback) {
+    concurrent++
+    if(concurrent <= maxConcurrent) {
+      callback()
+    }
+
     connection.query(
       `INSERT INTO emp_attendances (emp_no,start_date,end_date,break_time) VALUES ?`,
       [data],
       function (err) {
         if(err) throw err
+        concurrent--
         callback()
       }
       )
