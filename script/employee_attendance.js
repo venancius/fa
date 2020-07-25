@@ -46,7 +46,7 @@ const outStream = new Writable({
 
 const start = async function() {
   console.time('etlProcess')
-  const bulkInsertLimit = 100
+  const bulkInsertLimit = 1
 
   const dates = getWeekdayDates(new Date('2020-05-01'),new Date('2020-07-31'))
   const datesLength = dates.length
@@ -81,26 +81,6 @@ const start = async function() {
         randomIntFromInterval(30, 90)
       ]
     })
-
-    // inStream.push(userChunk)
-
-    // const userChunk = [
-    //   [
-    //     id,
-    //     '22-11-07 22:22:22',
-    //     '22-11-07 23:23:23',
-    //     30
-    //   ]
-    // ]
-
-    // connection.query(
-    //   `INSERT INTO emp_attendances (emp_no,start_date,end_date,break_time) VALUES ?`,
-    //   [userChunk],
-    //   function (err) {
-    //     if(err) throw err
-    //     // callback()
-    //   }
-    //   )
 
     chunk = chunk.concat(userChunk)
 
