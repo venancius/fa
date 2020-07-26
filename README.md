@@ -1,11 +1,10 @@
 # FA
 
-This project demonstrates ETL process, backend service, and front end service
+This project demonstrates data processing, backend service, and front end service
 
-To maintain memory usage and request handling , it uses stream and queue
-
+- On the data processing part, mostly the main idea is to bundle stream data into larger chunk first before storing
 - Frontend part bootstrapped by create-react-app
-- Backend part uses very straight forward routing sturcture
+- Backend part uses very straight forward routing structure
 
 ## Requirements
 
@@ -16,7 +15,7 @@ To maintain memory usage and request handling , it uses stream and queue
 
 ## Setup ETL
 
-1. Install all requirements ( You can put and run the Dockerfile from the test_db repo )
+1. Install all requirements ( You can copy and run the Dockerfile from the test_db repo )
 2. Import the datasource, all necessary information is already listed on the page
 3. Execute `emp_attendances.sql` and `emp_leaves.sql`
 3. Run `yarn install`
