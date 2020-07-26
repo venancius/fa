@@ -17,7 +17,7 @@ This project demonstrates data processing, backend service, and front end servic
 
 1. Install all requirements ( You can copy and run the Dockerfile from the test_db repo )
 2. Import the datasource, all necessary information is already listed on the page
-3. Execute `emp_attendances.sql` and `emp_leaves.sql`
+3. Execute `sql/emp_attendances.sql` and `sql/emp_leaves.sql` in your database
 3. Run `yarn install`
 4. Run `node script/emp_attendances.js`
 5. Run `node script/emp_leaves.js`
