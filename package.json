@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "etl:start": "node script/emp_attendances.js && node script/emp_leaves.js"
-  },
   "dependencies": {
     "mysql": "^2.18.1"
   }

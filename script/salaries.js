@@ -93,7 +93,7 @@ const sqlQuery = `SELECT (SUM(TIME_TO_SEC(TIMEDIFF(end_date, start_date ))))/360
 COUNT(*) as working_days,
 SUM(break_time) as sum_break_time, emp_no
 FROM emp_attendances ea
-GROUP BY emp_no LIMIT 1000;`
+GROUP BY emp_no;`
 
 
 connection.query(sqlQuery)

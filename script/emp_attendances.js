@@ -85,7 +85,7 @@ const outStream = new Writable({
     }
   })
 
-connection.query('SELECT * from employees')
+connection.query('SELECT * FROM employees;')
   .stream()
   .pipe(transformer)
   .pipe(outStream)

@@ -168,7 +168,7 @@ const outStream = new Writable({
   })
 console.time('stream')
 
-connection.query('SELECT * from employees limit')
+connection.query('SELECT * FROM employees;')
   .stream()
   .pipe(transformer)
   .pipe(outStream)
