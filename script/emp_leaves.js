@@ -1,5 +1,13 @@
 "use strict"
 
+/*
+
+The idea is to create larger chunk of data,
+then store it via bulk insert everytime chunk contains x numbers of data,
+
+Unfortunately, the delete method still runs on each data
+*/
+
 const mysql = require('mysql')
 const { Transform, Writable } = require('stream')
 
@@ -22,7 +30,7 @@ const leaveDurationInDays = {
   annual: 1,
 }
 
-const maxChunkLength = 10
+const maxChunkLength = 100
 let chunks = []
 let hasNext = true
 
@@ -133,7 +141,7 @@ const outStream = new Writable({
     if(chunks.length < maxChunkLength && hasNext) {
       callback()
     }
-else {
+    else {
     connection.query(
       `INSERT INTO emp_leaves (emp_no,start_date,end_date,type) VALUES ?`,
       [chunks.reduce( (prev, curr) =>[...prev, ...curr.toInsert], [])],
@@ -160,7 +168,7 @@ else {
   })
 console.time('stream')
 
-connection.query('SELECT * from employees limit 50')
+connection.query('SELECT * from employees limit')
   .stream()
   .pipe(transformer)
   .pipe(outStream)

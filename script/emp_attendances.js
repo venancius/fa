@@ -1,7 +1,17 @@
 "use strict"
 
+/*
+
+The idea is to create larger chunk of data,
+then store it via bulk insert everytime chunk contains x numbers of data,
+
+on my machine it it runs 4x faster than storing it one query at a time
+(with 100 maxUserChunk to keep memory usage relatively low)
+
+*/
+
 const mysql = require('mysql')
-const { Transform, Readable, Writable } = require('stream')
+const { Transform, Writable } = require('stream')
 
 const { randomIntFromInterval, getWeekdayDates } = require('./helper')
 
@@ -18,13 +28,13 @@ const connection = mysql.createPool({
   database : 'employees',
 })
 
-const maxConcurrent = 100
+const maxUserChunk = 100
 let chunks = []
 let hasNext = true
 
 const dates = getWeekdayDates(new Date('2020-05-01'),new Date('2020-07-31'))
 const datesLength = dates.length
-const maxChunkLength = maxConcurrent * datesLength
+const maxChunkLength = maxUserChunk * datesLength
 
 const transformer = Transform({
   objectMode: true,
@@ -74,9 +84,8 @@ const outStream = new Writable({
     }
     }
   })
-console.time('stream')
 
-connection.query('SELECT * from employees limit 123')
+connection.query('SELECT * from employees')
   .stream()
   .pipe(transformer)
   .pipe(outStream)
