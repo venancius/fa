@@ -1,16 +1,20 @@
-# FA ETL
+# FA
 
-A series of etl command for generating certain data
+This project demonstrates ETL process, backend service, and front end service
 
+To maintain memory usage and request handling , it uses stream and queue
+
+- Frontend part bootstrapped by create-react-app
+- Backend part uses very straight forward routing sturcture
 
 ## Requirements
 
 - [Node JS](https://nodejs.org/en/)
-- [yarn](https://classic.yarnpkg.com/en/docs/install/)
+- This project uses [yarn](https://classic.yarnpkg.com/en/docs/install/)
 - Data Source: [Test DB](https://github.com/datacharmer/test_db)
 
 
-## Setup
+## Setup ETL
 
 1. Install all requirements ( You can put and run the Dockerfile from the test_db repo )
 2. Import the datasource, all necessary information is already listed on the page
@@ -19,3 +23,17 @@ A series of etl command for generating certain data
 4. Run `node script/emp_attendances.js`
 5. Run `node script/emp_leaves.js`
 6. Run `node script/salaries.js`
+
+
+## Run Backend Service
+
+1. Make sure all dependency installed, otherwise `yarn install`
+2. This service uses kue, which depends on redis. Start redis service `yarn redis:run`
+3. Run `node backend` to start
+
+
+## Run Frontend Service
+
+1. Make sure all dependency installed, otherwise `yarn install`
+2. Run `yarn start`
+
