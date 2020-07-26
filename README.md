@@ -4,7 +4,7 @@ This project demonstrates data processing, backend service, and front end servic
 
 - On the data processing part, mostly the main idea is to bundle stream data into larger chunk first before storing
 - Frontend part bootstrapped by create-react-app
-- Backend part uses very straight forward routing structure
+- Backend part uses very straight forward routing structure, no magic included
 
 ## Requirements
 
