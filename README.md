@@ -13,7 +13,7 @@ This project demonstrates data processing, backend service, and front end servic
 - Data Source: [Test DB](https://github.com/datacharmer/test_db)
 
 
-## Setup ETL
+## Setup Data
 
 1. Install all requirements ( You can copy and run the Dockerfile from the test_db repo )
 2. Import the datasource, all necessary information is already listed on the page
