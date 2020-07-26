@@ -18,12 +18,17 @@ const connection = mysql.createPool({
   database : 'employees',
 })
 
+const maxConcurrent = 100
+let chunks = []
+let hasNext = true
+
 const dates = getWeekdayDates(new Date('2020-05-01'),new Date('2020-07-31'))
+const datesLength = dates.length
+const maxChunkLength = maxConcurrent * datesLength
 
 const transformer = Transform({
   objectMode: true,
   transform: function(data,encoding,callback) {
-    // console
     const userChunk = dates.map( date => {
       const startHour = new Date(date)
       startHour.setHours(randomIntFromInterval(8,10))
@@ -51,25 +56,37 @@ const transformer = Transform({
 const outStream = new Writable({
   objectMode: true,
   write(data, encoding, callback) {
-    connection.query(
-      `INSERT INTO emp_attendances (emp_no,start_date,end_date,break_time) VALUES ?`,
-      [data],
-      function (err) {
-        if(err) throw err
-        callback()
-      }
-      )
+    chunks = chunks.concat(data)
+    if(chunks.length < maxChunkLength && hasNext) {
+      callback()
+    }
+
+    else {
+      connection.query(
+        `INSERT INTO emp_attendances (emp_no,start_date,end_date,break_time) VALUES ?`,
+        [chunks],
+        function (err) {
+          if(err) throw err
+          chunks = []
+          callback()
+        }
+        )
+    }
     }
   })
-
 console.time('stream')
-connection.query('SELECT * from employees')
+
+connection.query('SELECT * from employees limit 123')
   .stream()
   .pipe(transformer)
   .pipe(outStream)
 
 
-transformer.on('end', () => console.log('reaches the end of file'))
+transformer.on('finish', function(data) {
+  hasNext = false
+  console.log('reaches the end of file')
+})
+
 outStream.on('finish', () => {
   console.timeEnd('stream')
   process.exit()

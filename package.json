@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "etl:start": "node script/emp_attendances.js && node script/emp_leaves.js"
+  },
   "dependencies": {
-    "mariadb": "^2.4.2",
-    "mysql": "^2.18.1",
-    "pipeline-pipe": "^0.1.4"
+    "mysql": "^2.18.1"
   }
 }
